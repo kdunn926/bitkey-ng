@@ -1,0 +1,30 @@
+nano
+rxvt-unicode
+vim
+chromium
+chromium-sandbox
+hunspell-en-us
+thunar
+thunar-volman
+gvfs
+eject
+scrypt
+
+// Electrum dependencies
+python3-setuptools
+python3-pip
+python3-pyqt5
+python3-cryptography
+libsecp256k1-0
+
+// Webcam support
+cheese
+
+// QR Code scanner
+qtqr
+
+// QR code utils
+zbar-tools
+
+// On-screen keyboard
+onboard

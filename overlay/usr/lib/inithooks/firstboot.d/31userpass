@@ -1,0 +1,12 @@
+#!/bin/bash -e
+# set user password
+
+USERNAME=user
+
+. /etc/default/inithooks
+[ "$(echo $SUDOADMIN | tr [A-Z] [a-z] )" = "true" ] && USERNAME=admin
+
+[ -e $INITHOOKS_CONF ] && . $INITHOOKS_CONF
+$INITHOOKS_PATH/bin/setpass.py $USERNAME --pass="$USER_PASS"
+
+echo "Set password for ${USERNAME} to ${USER_PASS}"

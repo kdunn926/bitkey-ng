@@ -1,0 +1,9 @@
+#!/bin/bash -e
+
+SRC=/usr/local/src
+
+cd $SRC
+tar -zxf python-zxcvbn_*.tar.gz
+
+cd $SRC/zxcvbn-python-*
+python3 setup.py install

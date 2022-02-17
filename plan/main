@@ -1,0 +1,12 @@
+#include <turnkey/base>
+
+#include <x11>
+#include <boot>
+#include <laptop>
+#include <hwdetect>
+
+#include "net"
+#include "system"
+#include "desktop"
+#include "apps"
+#include "firmware"

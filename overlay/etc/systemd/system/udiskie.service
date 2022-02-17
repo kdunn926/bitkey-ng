@@ -1,0 +1,10 @@
+[Unit]
+Description=udiskie automount daemon
+
+[Install]
+WantedBy=graphical-session.target
+
+[Service]
+User=user
+Group=plugdev
+ExecStart=/usr/bin/udiskie --verbose --automount --no-notify --config=/etc/udiskie.conf

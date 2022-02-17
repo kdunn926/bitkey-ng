@@ -1,0 +1,23 @@
+#!/bin/bash -e
+
+HELP=/usr/local/share/doc/bitkey-help
+LIB=/usr/local/lib
+SHARE=/usr/local/share
+SRC=/usr/local/src
+
+cd $SRC
+
+# Install BIP39 standalone
+mkdir $SHARE/bip39
+mv bip39-standalone.html $SHARE/bip39/
+
+# Install bitaddress.org standalone
+unzip bitaddress.org*.zip
+rm bitaddress.org*.zip
+#mkdir $SHARE/bitaddress.org
+mv bitaddress.org*/ ${SHARE}/bitaddress.org/
+
+mkdir $SHARE/qrcode
+mv qrcode.html ${SHARE}/qrcode/index.html
+mv jquery.min.js ${SHARE}/qrcode/
+mv qrcode.min.js ${SHARE}/qrcode/

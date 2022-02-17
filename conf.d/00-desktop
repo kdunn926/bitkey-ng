@@ -1,0 +1,22 @@
+#!/bin/bash -e
+
+# update gsettings with customizations
+glib-compile-schemas /usr/share/glib-2.0/schemas
+
+# update db for overlayed desktop files
+update-desktop-database
+
+# make user and set ownerhip for user homedir
+useradd -m user -s /bin/bash
+chown -R user:user /home/user
+
+# allow managing USB disks
+gpasswd -a user plugdev
+
+# configure nodm
+NODM_CONF="/etc/default/nodm"
+sed -i 's|NODM_USER=.*|NODM_USER=user|g' $NODM_CONF
+sed -i 's|NODM_XSESSION=.*|NODM_XSESSION=/home/user/.xsession|g' $NODM_CONF
+sed -i 's|-nolisten tcp|-nolisten tcp vt01|g' $NODM_CONF
+chmod +x /home/user/.xsession
+

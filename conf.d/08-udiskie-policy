@@ -1,0 +1,13 @@
+#!/bin/bash -e
+
+cat > /etc/polkit-1/localauthority/50-local.d/10-udiskie.pkla <<EOF
+[udisks]
+Identity=unix-group:plugdev
+Action=org.freedesktop.udisks.*
+ResultAny=yes
+
+[udisks2]
+Identity=unix-group:plugdev
+Action=org.freedesktop.udisks2.*
+ResultAny=yes
+EOF

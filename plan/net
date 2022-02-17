@@ -1,0 +1,14 @@
+wget
+curl
+ethtool
+netbase
+iproute2
+ntpdate
+ifupdown
+net-tools
+traceroute
+bind9-host
+iputils-ping
+wpasupplicant
+wireless-tools
+isc-dhcp-client

@@ -1,0 +1,17 @@
+#!/bin/bash -e
+
+LIB=/usr/local/lib
+SHARE=/usr/local/share
+SRC=/usr/local/src
+
+cd $SRC
+
+# Unpack Electrum
+tar -xzf Electrum-*.tar.gz
+#rm Electrum-*.tar.gz
+
+# Install Electrum
+mv Electrum-*/ $SHARE/electrum/
+ln -s $SHARE/electrum/run_electrum /usr/local/bin/electrum
+chmod +x /usr/local/bin/electrum
+python3 -m pip install Electrum-4.1.5.tar.gz

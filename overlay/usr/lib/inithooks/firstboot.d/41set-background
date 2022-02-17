@@ -1,0 +1,8 @@
+#!/bin/sh
+
+mode=`cat /proc/cmdline | awk -F'bitkey=' '{ print $2 }' | cut -f 1 -d ' '`
+mkdir -p /usr/local/share/backgrounds
+
+cd /usr/local/share/backgrounds
+
+ln -sf ${mode}.jpg default.jpg

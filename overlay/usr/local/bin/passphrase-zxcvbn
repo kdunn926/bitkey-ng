@@ -1,0 +1,248 @@
+#!/usr/bin/env python3
+# Copyright (c) 2022 for the people
+
+import os
+import sys
+import getopt
+
+import zxcvbn
+
+from PyQt5.QtWidgets import (
+    QMainWindow, QApplication, QGridLayout, QWidget, QDesktopWidget,
+    QPushButton, QAction, QLineEdit, QMessageBox,
+    QLabel, QProgressBar, QHBoxLayout, QVBoxLayout
+)
+from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import Qt, pyqtSlot
+
+def usage(e=None):
+    if e:
+        print('Error: ' + str(e), file=sys.stderr)
+
+    cmd = os.path.basename(sys.argv[0])
+    print('Syntax: %s [--opts]' % cmd, file=sys.stderr)
+    print(__doc__.strip(), file=sys.stderr)
+
+    sys.exit(1)
+
+
+scoreToColor = {
+    0: 'red',
+    1: 'red',
+    2: 'orange',
+    3: 'yellow',
+    4: 'green'
+}
+
+scoreBarStyleSheet = lambda color: \
+f"""
+QProgressBar::chunk {{ background-color: {color}; }}
+QProgressBar {{ color: {color}; }}"
+"""
+
+class PassphraseConfirm(QMainWindow):
+
+    def __init__(self, title = 'Passphrase Prompt', text = "enter a passphrase", isError = False, strength = False, confirm = False):
+        super().__init__()
+        self.title = title
+        self.left = 400
+        self.top = 400
+        self.width = 325
+        self.height = 160 if confirm else 130
+
+        self.text = text
+        self.isError = isError # Not yet implemented
+        self.strength = strength
+        self.confirm = confirm
+
+        self.score = None
+        #self.entropy = None
+        self.cracktime = None
+
+        self.initUI()
+
+    def initUI(self):
+        self.setWindowTitle(self.title)
+        self.setGeometry(self.left, self.top, self.width, self.height)
+        self.centerWindowOnScreen()
+
+        self.makePassphraseInput()
+        if self.confirm:
+            self.makePassphraseConfirmInput()
+        self.makeStrengthDetailSection()
+        self.makeOkButton()
+
+        self.show()
+
+    def makePassphraseInput(self):
+        # Create passphrase textbox
+        self.textbox = QLineEdit(self)
+        self.textbox.move(20, 25)
+        self.textbox.resize(280, 25)
+        self.textbox.setText(self.text)
+
+        # connect input box to function
+        self.textbox.selectionChanged.connect(lambda: self.handleDefaultValue(self.textbox))
+        self.textbox.textChanged.connect(self.passphrase_changed)
+
+    @pyqtSlot()
+    def handleDefaultValue(self, obj):
+        if self.text in obj.text():
+            obj.setText('')
+            obj.setEchoMode(QLineEdit.Password)
+
+    def makePassphraseConfirmInput(self):
+        # Create passphrase textbox
+        self.confirmbox = QLineEdit(self)
+        self.confirmbox.move(20, 60)
+        self.confirmbox.resize(280, 25)
+        self.confirmbox.setText(f'{self.text} again')
+
+        # connect input box to function
+        self.confirmbox.selectionChanged.connect(lambda: self.handleDefaultValue(self.confirmbox))
+        self.confirmbox.textChanged.connect(self.passphrase_confirm)
+
+
+    def makeStrengthDetailSection(self):
+        if not self.strength:
+            return
+
+        self.makeStrengthBar()
+        self.makeCrackTimeInfo()
+        #self.makeEntropyInfo()
+
+    def makeCrackTimeInfo(self):
+        label = QLabel('Crack Time:', self)
+        label.setHidden(True)
+        label.setAlignment(Qt.AlignRight)
+
+        self.cracktime = QLabel('', self)
+        self.cracktime.setBuddy(label)
+        self.cracktime.setAlignment(Qt.AlignLeft)
+        label.move(20, 95 if self.confirm else 60)
+        self.cracktime.move(140, 95 if self.confirm else 60)
+        self.cracktime.resize(150, 25)
+        self.cracktimeLabel = label
+
+    def makeEntropyInfo(self):
+        label = QLabel('Entropy:', self)
+        label.setAlignment(Qt.AlignRight)
+
+        self.entropy = QLabel('eph', self)
+        self.entropy.setBuddy(label)
+        self.entropy.setAlignment(Qt.AlignHCenter)
+        label.move(20, 80)
+        self.entropy.move(100, 80)
+
+    def makeStrengthBar(self):
+        self.score = QProgressBar(self)
+        #self.strength.setBuddy(label)
+        self.score.setAlignment(Qt.AlignHCenter)
+        #label.move(20, 80)
+        self.score.setGeometry(30, 40, 280, 15)
+        self.score.setStyleSheet(scoreBarStyleSheet('red'))
+        self.score.setTextVisible(False)
+        self.score.move(20, 3)
+
+    def makeOkButton(self):
+        # Create an OK button in the window
+        self.okButton = QPushButton('OK', self)
+        self.okButton.setEnabled(False)
+        self.okButton.move(200, 120 if self.confirm else 85)
+
+        # connect button to function on_click
+        self.okButton.clicked.connect(self.on_ok_clicked)
+
+    def centerWindowOnScreen(self):
+        qtRectangle = self.frameGeometry()
+        centerPoint = QDesktopWidget().availableGeometry().center()
+        qtRectangle.moveCenter(centerPoint)
+        self.move(qtRectangle.topLeft())
+
+    @pyqtSlot()
+    def passphrase_changed(self):
+        passphrase = self.textbox.text()
+
+        if self.strength:
+            self.cracktimeLabel.setHidden(not passphrase)
+
+        if passphrase and not self.confirm:
+            self.okButton.setEnabled(True)
+
+        if self.strength and passphrase:
+            info = zxcvbn.zxcvbn(passphrase)
+            scoreVal = int(info['score'])
+            self.score.setValue(scoreVal * 25)
+            self.score.setStyleSheet(scoreBarStyleSheet(scoreToColor[scoreVal]))
+
+            #self.entropy.setText(str(info['entropy']))
+            #print(info['crack_times_display'].keys())
+            self.cracktime.setText(str(info['crack_times_display']['offline_fast_hashing_1e10_per_second']))
+            # ['online_throttling_100_per_hour',
+            #  'online_no_throttling_10_per_second',
+            #  'offline_slow_hashing_1e4_per_second',
+            #  'offline_fast_hashing_1e10_per_second']
+
+    @pyqtSlot()
+    def passphrase_confirm(self):
+        passphrase = self.textbox.text()
+        passphraseConfirm = self.confirmbox.text()
+
+        self.okButton.setEnabled(passphrase == passphraseConfirm)
+
+    @pyqtSlot()
+    def on_ok_clicked(self):
+        passphrase = self.textbox.text()
+        print(passphrase)
+        QApplication.quit()
+
+
+def handleArguments():
+    try:
+        l_opts = ['help', 'hide-strength', 'confirm', 'title=', 'text='] # , 'error=']
+        opts, args = getopt.gnu_getopt(sys.argv[1:], 'h', l_opts)
+    except getopt.GetoptError as e:
+        usage(e)
+
+    kwargs = {
+        'strength': True,
+        'title': 'Passphrase',
+        'text': 'Enter a passphrase',
+        # 'isError': None,
+    }
+    confirm = False
+    for opt, val in opts:
+        if opt in ('-h', '--help'):
+            usage()
+
+        elif opt == '--confirm':
+            kwargs['confirm'] = True
+
+        elif opt == '--hide-strength':
+            kwargs['strength'] = False
+
+        elif opt == '--title':
+            kwargs['title'] = val
+
+        elif opt == '--text':
+            text = val if not isinstance(val, bytes) else val.decode('string_escape')
+            kwargs['text'] = text
+
+        # elif opt == '--error':
+        #     kwargs['isError'] = val
+
+    return kwargs
+
+
+def main():
+    args = handleArguments()
+
+    app = QApplication(sys.argv)
+
+    ex = PassphraseConfirm(**args)
+
+    sys.exit(app.exec_())
+
+
+if __name__ == '__main__':
+    main()
