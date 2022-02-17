@@ -199,7 +199,7 @@ class PassphraseConfirm(QMainWindow):
 
 def handleArguments():
     try:
-        l_opts = ['help', 'hide-strength', 'confirm', 'title=', 'text='] # , 'error=']
+        l_opts = ['help', 'hide-strength', 'confirm', 'title=', 'text=', 'error=']
         opts, args = getopt.gnu_getopt(sys.argv[1:], 'h', l_opts)
     except getopt.GetoptError as e:
         usage(e)
@@ -228,7 +228,8 @@ def handleArguments():
             text = val if not isinstance(val, bytes) else val.decode('string_escape')
             kwargs['text'] = text
 
-        # elif opt == '--error':
+        elif opt == '--error':
+            continue
         #     kwargs['isError'] = val
 
     return kwargs

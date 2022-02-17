@@ -1,0 +1,3 @@
+user ALL = (root) NOPASSWD: luks-mkfs
+user ALL = (root) NOPASSWD: luks-mount
+user ALL = (root) NOPASSWD: luks-umount

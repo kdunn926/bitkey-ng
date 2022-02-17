@@ -109,14 +109,13 @@ if [ ! -e "$storage_file" ]; then
     echo $passwd | sudo luks-mount $storage_file $mount_path
 
 else
-    error=""
     while true; do
-        passwd=$(passphrase-zxcvbn --hide --text="$passwd_text" --error="$error")
+        passwd=$(passphrase-zxcvbn --hide --text="$passwd_text")
         info "attempting to mount $storage_file ..."
         if echo $passwd | sudo luks-mount $storage_file $mount_path; then
             break
         fi
-        error="Invalid passphrase, please try again"
+        zenity --error --text "Invalid passphrase, please try again"
     done
 fi
 
@@ -124,7 +123,7 @@ fi
 rm -f $infofile
 
 # start electrum in foreground
-sudo chown -R user:user $mount_path
+#sudo chown -R user:user $mount_path
 wallet_path=$mount_path/$mode
 [ "$mode" == "cold-offline" ] && extra_args="--offline"
 electrum $extra_args --wallet=$wallet_path
