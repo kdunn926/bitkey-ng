@@ -47,7 +47,7 @@ class PassphraseConfirm(QMainWindow):
         self.title = title
         self.left = 400
         self.top = 400
-        self.width = 325
+        self.width = 455
         self.height = 160 if confirm else 130
 
         self.text = text
@@ -78,7 +78,7 @@ class PassphraseConfirm(QMainWindow):
         # Create passphrase textbox
         self.textbox = QLineEdit(self)
         self.textbox.move(20, 25)
-        self.textbox.resize(280, 25)
+        self.textbox.resize(self.width - 45, 25)
         self.textbox.setText(self.text)
 
         # connect input box to function
@@ -95,7 +95,7 @@ class PassphraseConfirm(QMainWindow):
         # Create passphrase textbox
         self.confirmbox = QLineEdit(self)
         self.confirmbox.move(20, 60)
-        self.confirmbox.resize(280, 25)
+        self.confirmbox.resize(self.width - 45, 25)
         self.confirmbox.setText(f'{self.text} again')
 
         # connect input box to function
@@ -139,7 +139,7 @@ class PassphraseConfirm(QMainWindow):
         #self.strength.setBuddy(label)
         self.score.setAlignment(Qt.AlignHCenter)
         #label.move(20, 80)
-        self.score.setGeometry(30, 40, 280, 15)
+        self.score.setGeometry(30, 40, self.width - 45, 15)
         self.score.setStyleSheet(scoreBarStyleSheet('red'))
         self.score.setTextVisible(False)
         self.score.move(20, 3)

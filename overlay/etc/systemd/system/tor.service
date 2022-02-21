@@ -1,0 +1,6 @@
+[Unit]
+Description=tor
+
+[Service]
+User=user
+ExecStart=/usr/sbin/tor

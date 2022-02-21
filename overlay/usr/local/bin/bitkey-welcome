@@ -1,21 +1,25 @@
 #!/bin/bash -e
 
-for x in $(cat /proc/cmdline); do
-    case $x in
-        bitkey=*) MODE="${x#bitkey=}";;
-    esac
-done
+MODE=`cat /proc/cmdline | awk -F'bitkey=' '{ print $2 }' | cut -f 1 -d ' '`
 
-info-prompt \
-    --title "Welcome to BitKey - $MODE" \
+NETWORK_MESSAGE="You may need to activate a network interface before reaching the internet.
+
+
+Note: Tor is enabled by default, browsing may be slower than normal."
+
+if [ ${MODE} == "cold-offline" ] ; then
+    NETWORK_MESSAGE=""
+fi;
+
+zentity --info \
+    --width=350 \
+    --title "Welcome to BitKey-ng - $MODE" \
     --text "
 Getting started:
 
-1. Remove the BitKey (red) boot device
+1. Insert a USB drive for wallet storage
 
-2. Insert a USB drive (black) for data storage
+2. Click Electrum to create or open your $MODE wallet
 
-3. Click Electrum to create or open your $MODE wallet
-
+${NETWORK_MESSAGE}
 "
-

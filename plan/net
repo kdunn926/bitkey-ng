@@ -12,3 +12,7 @@ iputils-ping
 wpasupplicant
 wireless-tools
 isc-dhcp-client
+
+// tor
+tor
+deb.torproject.org-keyring

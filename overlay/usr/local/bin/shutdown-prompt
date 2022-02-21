@@ -3,6 +3,7 @@
 TEXT="This session is non-persistent. Any data not saved to an external USB device will be lost. Are you sure you want to shutdown?"
 
 zenity \
+    --width=350 \
     --title "System Shutdown" \
     --ok-label="Yes, shutdown" \
     --cancel-label="Cancel" \

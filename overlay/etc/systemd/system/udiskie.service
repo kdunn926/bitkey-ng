@@ -7,4 +7,4 @@ WantedBy=graphical-session.target
 [Service]
 User=user
 Group=plugdev
-ExecStart=/usr/bin/udiskie --verbose --automount --no-notify --config=/etc/udiskie.conf
+ExecStart=/usr/bin/udiskie --verbose --automount --notify-command "/usr/local/bin/notify-wrapper {event} {device_presentation}" --config=/etc/udiskie.conf

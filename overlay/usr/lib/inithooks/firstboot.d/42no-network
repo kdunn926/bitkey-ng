@@ -4,21 +4,17 @@ mode=`cat /proc/cmdline | awk -F'bitkey=' '{ print $2 }' | cut -f 1 -d ' '`
 
 if [ "$mode" = "cold-offline" ] ; then
     cd /usr/lib/modules/`uname -r`/kernel/drivers/net
-    ethernetModules=`find ethernet -type f -name '*.ko' -exec basename {} \; | cut -f 1 -d '.'`
 
-    # unload all ethernet kernel drivers
-    for m in $ethernetModules ; do
-       rmmod -f ${m}
-    done;
+    for type in ethernet wireless ; do 
+        modules=`find ${type} -type f -name '*.ko' -exec basename {} \; | cut -f 1 -d '.'`
+    
+        # unload all {ethernet,wireless} drivers from the kernel
+        for m in $modules ; do
+           rmmod -f ${m}
+        done;
+    
+        # remove all {ethernet,wireless} drivers from filesystem
+        find ${type} -type f -name '*.ko' -exec rm -f {} \;
 
-    wifiModules=`find wifi -type f -name '*.ko' -exec basename {} \; | cut -f 1 -d '.'`
-
-    # unload all wifi kernel drivers
-    for m in $wifiModules ; do
-       rmmod -f ${m}
-    done;
-
-    # remove ethernet and wifi drivers from filesystem
-    find ethernet -type f -name '*.ko' -exec rm -f {} \;
-    find wifi -type f -name '*.ko' -exec rm -f {} \;
+    done; 
 fi

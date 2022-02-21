@@ -1,3 +1,8 @@
-user ALL = (root) NOPASSWD: luks-mkfs
-user ALL = (root) NOPASSWD: luks-mount
-user ALL = (root) NOPASSWD: luks-umount
+user ALL = (root) NOPASSWD: /usr/local/bin/luks-mkfs
+user ALL = (root) NOPASSWD: /usr/local/bin/luks-mount
+user ALL = (root) NOPASSWD: /usr/local/bin/luks-umount
+user ALL = (root) NOPASSWD: /usr/sbin/cryptsetup
+Cmd_Alias BITKEY_CHOWN = /bin/chown -R user /mnt/bitkey-data
+user ALL = (root) NOPASSWD: BITKEY_CHOWN
+user ALL = (root) NOPASSWD: /usr/sbin/mkfs.ext2
+

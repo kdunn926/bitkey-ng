@@ -1,3 +1,3 @@
 #!/bin/bash -e
 
-chromium --incognito https://bitkey.io/ &
+chromium --proxy-server="socks5://localhost:9050" --incognito https://bitcoin.org &

@@ -1,0 +1,13 @@
+#!/bin/bash -e
+
+# restart display manager to apply changes
+systemctl restart nodm.service
+
+# start automount service
+systemctl start udiskie.service
+
+mode=`cat /proc/cmdline | awk -F'bitkey=' '{ print $2 }' | cut -f 1 -d ' '`
+if [ ! "$mode" = "cold-offline" ]; then
+	# start tor sock5 proxy
+	systemctl start tor
+fi

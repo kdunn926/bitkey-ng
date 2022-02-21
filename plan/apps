@@ -9,6 +9,7 @@ thunar-volman
 gvfs
 eject
 scrypt
+lxterminal
 
 // Electrum dependencies
 python3-setuptools

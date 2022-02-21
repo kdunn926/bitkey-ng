@@ -13,6 +13,10 @@ chown -R user:user /home/user
 # allow managing USB disks
 gpasswd -a user plugdev
 
+# create mountpoint for bitkey
+mkdir /mnt/bitkey-data
+chown user:user /mnt/bitkey-data
+
 # configure nodm
 NODM_CONF="/etc/default/nodm"
 sed -i 's|NODM_USER=.*|NODM_USER=user|g' $NODM_CONF

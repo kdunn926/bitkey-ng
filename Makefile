@@ -1,3 +1,5 @@
 NONFREE=yes
 
-include $(FAB_PATH)/common/mk/turnkey-desktop.mk
+COMMON_OVERYLAYS=$(ls ../../common/overlays/turnkey.d/ | egrep -v 'webmin|shellinbox' | xargs printf -- 'turnkey.d/%s ')
+
+include turnkey-desktop.mk

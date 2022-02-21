@@ -17,3 +17,8 @@ else
    exec xterm
 fi
 
+if [ -e /usr/lib/notifcation-daemon/notification-daemon ] ; then
+   /usr/lib/notification-daemon/notification-daemon &
+fi
+
+/usr/local/bin/bitkey-welcome

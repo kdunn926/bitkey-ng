@@ -1,0 +1,13 @@
+#!/bin/bash -e
+
+event=$1
+device=$2
+
+if cat ${device} | egrep 'loop|mapper' ; then
+    ;;
+elif [ "" == "${device}" ]
+    ;;
+else
+    message=`cat ${event} | cut -f 2 -d "_"`
+    env DISPLAY=:0 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus notify-send --icon=dialog-information "${message}: ${device}"
+fi

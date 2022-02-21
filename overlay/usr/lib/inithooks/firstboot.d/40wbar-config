@@ -37,11 +37,11 @@ c: qtqr
 t: QR scanner
 
 i: /usr/share/icons/nuoveXT2/48x48/apps/utilities-terminal.png
-c: xterm
+c: lxterminal
 t: terminal
 
 i: /usr/share/icons/nuoveXT2/48x48/apps/text-editor.png
-c: gvim -y -n
+c: gedit
 t: editor
 
 i: /usr/share/icons/nuoveXT2/48x48/devices/input-keyboard.png
@@ -60,8 +60,3 @@ c: shutdown-prompt
 t: shutdown
 
 EOF
-
-# restart display manager to apply changes
-systemctl restart nodm.service
-
-systemctl start udiskie.service

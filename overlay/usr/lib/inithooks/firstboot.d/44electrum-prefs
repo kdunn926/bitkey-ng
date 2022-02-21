@@ -1,0 +1,18 @@
+#!/bin/bash -e
+
+cat > /home/user/.electrum/config <<EOF
+{
+    "auto_connect": true,
+    "check_updates": false,
+    "config_version": 3,
+    "decimal_point": 0,
+    "is_maximized": false,
+    "oneserver": false,
+    "proxy": "socks5:127.0.0.1:9050::",
+    "show_addresses_tab":  true,
+    "show_channels_tab":  true,
+    "show_utxo_tab":  true
+}
+EOF
+
+chown -R user:user /home/user/.electrum

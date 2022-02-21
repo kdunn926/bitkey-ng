@@ -14,3 +14,4 @@ zenity
 nodm
 libgconf-2-4
 gedit
+libnotify-bin
