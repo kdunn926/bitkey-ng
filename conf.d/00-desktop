@@ -17,6 +17,9 @@ gpasswd -a user plugdev
 mkdir /mnt/bitkey-data
 chown user:user /mnt/bitkey-data
 
+# allow webcam access for QR code reading
+gpasswd -a user video
+
 # configure nodm
 NODM_CONF="/etc/default/nodm"
 sed -i 's|NODM_USER=.*|NODM_USER=user|g' $NODM_CONF
@@ -24,3 +27,4 @@ sed -i 's|NODM_XSESSION=.*|NODM_XSESSION=/home/user/.xsession|g' $NODM_CONF
 sed -i 's|-nolisten tcp|-nolisten tcp vt01|g' $NODM_CONF
 chmod +x /home/user/.xsession
 
+sed -e 's|Restart=always|Restart=never|g' /lib/systemd/system/nodm.service

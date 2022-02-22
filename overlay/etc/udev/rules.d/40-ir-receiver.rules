@@ -1,0 +1,3 @@
+ACTION!="add|change", GOTO="END"
+SUBSYSTEM=="video4linux", ATTRS{iProduct}=="IR*", ATTR{bConfigurationValue}="0"
+LABEL="END"

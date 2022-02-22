@@ -9,5 +9,8 @@ systemctl start udiskie.service
 mode=`cat /proc/cmdline | awk -F'bitkey=' '{ print $2 }' | cut -f 1 -d ' '`
 if [ ! "$mode" = "cold-offline" ]; then
 	# start tor sock5 proxy
-	systemctl start tor
+	systemctl start tor.service
 fi
+
+# start apple keyboard helper service
+systemctl start pommed.service

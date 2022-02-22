@@ -1,7 +1,6 @@
 #!/bin/bash -e
 
-MASTERPASS=supersecret
-#$(mcookie | cut -b 1-8)
+MASTERPASS=$(mcookie | cut -b 1-8)
 
 cat > /etc/inithooks.conf <<EOF
 export ROOT_PASS=${MASTERPASS}

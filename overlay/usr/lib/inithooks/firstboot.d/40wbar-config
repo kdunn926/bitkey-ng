@@ -12,16 +12,20 @@ i: /usr/local/share/icons/electrum.png
 c: electrum-wrapper $mode >/dev/null
 t: Electrum ($mode)
 
-i: /usr/local/share/icons/wallet.png
-c: chromium-offline-app file:///usr/local/share/cryptojsappslauncher/offline.html
-t: Offline Web Apps
+i: /usr/share/icons/hicolor/48x48/apps/wassabee.png
+c: wassabee
+t: Wasabi Wallet
 
 EOF
 
 if [ ! "$mode" = "cold-offline" ]; then
 cat >>$CONFIG<<EOF
-i: /usr/share/pixmaps/chromium.png
-c: chromium-wrapper
+i: /usr/share/icons/hicolor/48x48/apps/whirlpool-gui.png
+c: /opt/whirlpool-gui/whirlpool-gui
+t: Samourai Whirlpool
+
+i: /usr/share/icons/hicolor/48x48/apps/brave-browser.png
+c: brave-wrapper
 t: Web browser
 
 i: /usr/share/icons/nuoveXT2/48x48/places/network-server.png
@@ -32,6 +36,10 @@ EOF
 fi
 
 cat >>$CONFIG<<EOF
+i: /usr/local/share/icons/wallet.png
+c: brave-offline-app file:///usr/local/share/cryptojsappslauncher/offline.html
+t: Offline Web Apps
+
 i: /usr/share/pixmaps/qtqr.png
 c: qtqr
 t: QR scanner
@@ -52,9 +60,6 @@ i: /usr/share/icons/nuoveXT2/48x48/apps/system-file-manager.png
 c: thunar /media
 t: file manager
 
-EOF
-
-cat >>$CONFIG<<EOF
 i: /usr/share/icons/nuoveXT2/48x48/actions/system-shutdown.png
 c: shutdown-prompt
 t: shutdown

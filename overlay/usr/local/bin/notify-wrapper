@@ -3,11 +3,11 @@
 event=$1
 device=$2
 
-if cat ${device} | egrep 'loop|mapper' ; then
-    ;;
-elif [ "" == "${device}" ]
-    ;;
+if echo ${device} | egrep 'loop|mapper' ; then
+    NOOP=1;
+elif [ "" == "${device}" ] ; then
+    NOOP=1;
 else
-    message=`cat ${event} | cut -f 2 -d "_"`
+    message=`echo ${event} | cut -f 2 -d "_"`
     env DISPLAY=:0 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus notify-send --icon=dialog-information "${message}: ${device}"
 fi

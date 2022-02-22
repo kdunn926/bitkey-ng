@@ -10,15 +10,13 @@ if which bitkey-welcome >/dev/null; then
     bitkey-welcome &
 fi
 
+if [ -e /usr/lib/notification-daemon/notification-daemon ]; then
+    /usr/lib/notification-daemon/notification-daemon &
+fi
+
 if which wbar >/dev/null; then
    sleep 2
    exec wbar
 else
    exec xterm
 fi
-
-if [ -e /usr/lib/notifcation-daemon/notification-daemon ] ; then
-   /usr/lib/notification-daemon/notification-daemon &
-fi
-
-/usr/local/bin/bitkey-welcome

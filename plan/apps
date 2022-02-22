@@ -1,8 +1,7 @@
 nano
 rxvt-unicode
 vim
-chromium
-chromium-sandbox
+brave-browser
 hunspell-en-us
 thunar
 thunar-volman
@@ -17,6 +16,18 @@ python3-pip
 python3-pyqt5
 python3-cryptography
 libsecp256k1-0
+
+// Samourai dependencies
+openjdk-11-jre
+libgtk-3-0
+libnotify4
+libnss3
+libxss1
+libxtst6
+xdg-utils
+libatspi2.0-0
+//libappindicator3-1
+libsecret-1-0
 
 // Webcam support
 cheese

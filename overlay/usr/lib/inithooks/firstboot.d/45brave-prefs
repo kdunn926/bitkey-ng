@@ -1,0 +1,47 @@
+#!/bin/bash -e
+
+mkdir -p /home/user/.config/BraveSoftware/Brave-Browser/Default/
+
+cat > /home/user/.config/BraveSoftware/Brave-Browser/Default/Preferences <<EOF
+{
+  "brave": {
+    "default_browser_prompt_enabled": false,
+    "dont_ask_for_crash_reporting": true,
+    "default_browser": {
+      "launching_count": 10
+    },
+    "new_tab_page": {
+      "show_rewards": false,
+      "show_binance": false,
+      "show_gemini": false
+    },
+    "stats": {
+      "reporting_enabled": false
+    }
+  },
+  "default_search_provider_data": {
+    "template_url_data": {
+      "keyword": "duckduckgo.com",
+      "short_name": "DuckDuckGo",
+      "suggestions_url": "https://duckduckgo.com/ac/?q={searchTerms}&type=list",
+      "url": "https://duckduckgo.com/?q={searchTerms}&t=canonical"
+    }
+  },
+  "crypto_dot_com": {
+    "new_tab_page": {
+      "show_crypto_dot_com": false
+    }
+  },
+  "web_apps": {
+    "daily_metrics": {
+      "https://www.coinbase.com/": {
+        "promotable": false
+      }
+    }
+  }
+}
+EOF
+
+touch '/home/user/.config/BraveSoftware/Brave-Browser/First Run'
+
+chown -R user:user /home/user/.config

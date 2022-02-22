@@ -1,0 +1,8 @@
+[Unit]
+Description=Apple keyboard support
+
+[Install]
+WantedBy=graphical-session.target
+
+[Service]
+ExecStart=/usr/sbin/pommed -f

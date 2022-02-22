@@ -2,7 +2,16 @@
 
 MODE=`cat /proc/cmdline | awk -F'bitkey=' '{ print $2 }' | cut -f 1 -d ' '`
 
-NETWORK_MESSAGE="You may need to activate a network interface before reaching the internet.
+BASE_MESSAGE="
+Getting started:
+
+1. Insert a USB drive to store your wallet
+
+2. To create or open your \'$MODE\' wallet, open Electrum with the blue icon on the left"
+
+NETWORK_MESSAGE="
+
+You may need to activate a network interface before reaching the internet.
 
 
 Note: Tor is enabled by default, browsing may be slower than normal."
@@ -11,15 +20,8 @@ if [ ${MODE} == "cold-offline" ] ; then
     NETWORK_MESSAGE=""
 fi;
 
-zentity --info \
+zenity --info \
     --width=350 \
     --title "Welcome to BitKey-ng - $MODE" \
-    --text "
-Getting started:
+    --text "${BASE_MESSAGE}${NETWORK_MESSAGE}"
 
-1. Insert a USB drive for wallet storage
-
-2. Click Electrum to create or open your $MODE wallet
-
-${NETWORK_MESSAGE}
-"

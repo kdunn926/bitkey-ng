@@ -6,9 +6,9 @@ CDROOT ?= gfxboot-turnkey
 HOSTNAME ?= $(shell basename $(shell pwd))
 CONF_VARS += HOSTNAME ROOT_PASS NONFREE
 
-COMMON_OVERLAYS := turnkey.d $(COMMON_OVERLAYS)
+#COMMON_OVERLAYS := turnkey.d $(COMMON_OVERLAYS)
 
-COMMON_CONF := turnkey.d $(COMMON_CONF)
+#COMMON_CONF := turnkey.d $(COMMON_CONF)
 
 COMMON_REMOVELISTS += turnkey
 COMMON_REMOVELISTS_FINAL += turnkey
